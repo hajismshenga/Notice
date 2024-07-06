@@ -1,53 +1,68 @@
-// src/components/Auth/Register.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext'; // Ensure this path is correct
+import axios from 'axios';
 
-function Register() {
-  const [registrationNumber, setRegistrationNumber] = useState('');
-  const [userID, setUserID] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useAuth();
-  const navigate = useNavigate();
+const Register = () => {
+    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    // Add registration logic here, e.g., API call to create user
-    // For demonstration, we'll just log the user in
-    login({ userID });
-    navigate('/dashboard');
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
 
-  return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Registration Number:</label>
-          <input type="text" value={registrationNumber} onChange={(e) => setRegistrationNumber(e.target.value)} required />
-        </div>
-        <div>
-          <label>User ID:</label>
-          <input type="text" value={userID} onChange={(e) => setUserID(e.target.value)} required />
-        </div>
-        <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-    </div>
-  );
-}
+        if (!email || !username || !password) {
+            setError('All fields are required');
+            return;
+        }
+
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            setError('Invalid email format');
+            return;
+        }
+
+        if (password.length < 6) {
+            setError('Password must be at least 6 characters');
+            return;
+        }
+
+        try {
+            const response = await axios.post('/api/auth/register', { email, username, password });
+            // Handle successful registration (e.g., redirect to login)
+        } catch (error) {
+            setError('Error registering');
+            console.error('Error registering', error);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <h2>Register</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <input 
+                type="email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                placeholder="Email" 
+                required 
+            />
+            <input 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+                placeholder="Username" 
+                required 
+            />
+            <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                placeholder="Password" 
+                required 
+            />
+            <button type="submit">Register</button>
+        </form>
+    );
+};
 
 export default Register;

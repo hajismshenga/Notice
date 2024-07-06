@@ -1,65 +1,56 @@
-// src/components/Auth/Login.js
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../services/authService'; // Import the login function
-import './Login.css'; // Import the CSS file
+import axios from 'axios';
 
-function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate(); // useNavigate instead of useHistory
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const user = await login(username, password); // Call the login function
-      // Redirect user to dashboard or appropriate page based on user role
-      navigate(`/dashboard/${user.role.toLowerCase()}`);
-    } catch (err) {
-      setError(err);
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
 
-  return (
-    <div className="login-container">
-      <h2>Welcome to the Student Notice Management System</h2>
-      <p>This system allows you to manage and view notices within the university.</p>
-      <div className="login-box">
+        if (!email || !password) {
+            setError('All fields are required');
+            return;
+        }
+
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            setError('Invalid email format');
+            return;
+        }
+
+        try {
+            const response = await axios.post('/api/auth/login', { email, password });
+            localStorage.setItem('token', response.data.token);
+            // Redirect to dashboard
+        } catch (error) {
+            setError('Error logging in');
+            console.error('Error logging in', error);
+        }
+    };
+
+    return (
         <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
+            <h2>Login</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <input 
+                type="email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                placeholder="Email" 
+                required 
             />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+            <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                placeholder="Password" 
+                required 
             />
-          </div>
-          <button type="submit">Login</button>
+            <button type="submit">Login</button>
         </form>
-        <div className="forgot-password">
-          <Link to="/forgot-password">Forgot password?</Link>
-        </div>
-        <div className="register">
-          <p>Don't have an account?</p>
-          <Link to="/register">Register</Link>
-        </div>
-        {error && <div className="error">{error}</div>} {/* Display error message */}
-      </div>
-    </div>
-  );
-}
+    );
+};
 
 export default Login;

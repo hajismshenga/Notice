@@ -1,29 +1,34 @@
-// src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
-import ForgotPassword from './components/Auth/ForgotPassword';
-import MainLayout from './components/MainLayout';
-import Home from './components/Home';
-import Dashboard from './components/Dashboard';
-import NewNotice from './components/NewNotice';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import CreateEvent from './components/CreateEvent';
+import EventSearch from './components/EventSearch';
+import Responses from './components/Responses';
+import Settings from './components/Settings';
+import Navbar from './components/Navbar';
+import { ThemeProvider } from './ThemeContext';
+import './styles.css';
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/" element={<MainLayout />}>
-          <Route path="home" element={<Home />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="new-notice" element={<NewNotice />} />
-        </Route>
-      </Routes>
-    </Router>
-  );
-}
+const App = () => {
+    return (
+        <ThemeProvider>
+            <Router>
+                <div>
+                    <Navbar />
+                    <div className="main-content">
+                        <Routes>
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/create-event" element={<CreateEvent />} />
+                            <Route path="/search-events" element={<EventSearch />} />
+                            <Route path="/responses" element={<Responses />} />
+                            <Route path="/settings" element={<Settings />} />
+                            <Route path="/" element={<Dashboard />} />
+                        </Routes>
+                    </div>
+                </div>
+            </Router>
+        </ThemeProvider>
+    );
+};
 
 export default App;

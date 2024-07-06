@@ -1,84 +1,261 @@
-/* src/styles.css */
+/* Global Styles */
 body {
   font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-h2 {
+h1, h2, h3 {
   color: #333;
 }
 
-form {
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Header */
+.header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
   display: flex;
-  flex-direction: column;
-  max-width: 300px;
-}
-
-label {
-  margin: 5px 0;
-}
-
-input {
-  margin: 5px 0 10px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  padding: 10px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #218838;
-}
-/* Add this CSS to your stylesheet or use a CSS module */
-
-.login-container {
-  display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
 }
 
-.login-form {
-  border: 1px solid #ccc;
+.header .title {
+  font-size: 24px;
+}
+
+.header .username {
+  font-size: 18px;
+}
+
+/* Navigation */
+.navbar {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 15px;
+}
+
+.navbar a {
+  color: #007bff;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Forms */
+form {
+  max-width: 400px;
+  margin: 20px auto;
   padding: 20px;
+  background-color: #fff;
   border-radius: 8px;
-  width: 300px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.input-group {
+form h2 {
   margin-bottom: 15px;
+  font-size: 22px;
 }
 
-.input-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.input-group input {
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+textarea {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.forgot-password,
-.register {
-  margin-top: 10px;
+textarea {
+  height: 100px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Error Messages */
+.error {
+  color: #dc3545;
+  margin-bottom: 10px;
+}
+
+/* Success Messages */
+.success {
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+/* Login Component */
+.login-container,
+.register-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.login-container h2,
+.register-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Create Event Component */
+.create-event-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.create-event-container h2 {
+  margin-bottom: 20px;
+}
+
+.create-event-container .custom-fields-container {
+  margin-bottom: 15px;
+}
+
+.create-event-container .custom-fields-container .custom-field {
+  display: flex;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.create-event-container .custom-fields-container .custom-field input {
+  flex: 1;
+}
+
+/* Search Events Component */
+.search-events-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-events-container h2 {
+  margin-bottom: 20px;
+}
+
+.search-events-container .search-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-events-container .search-form input {
+  margin-bottom: 10px;
+}
+
+/* Responses Component */
+.responses-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.responses-container h2 {
+  margin-bottom: 20px;
+}
+
+/* Settings Component */
+.settings-container {
+  padding: 20px;
+  max-width: 600px; /* Adjust the max-width as needed */
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.settings-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* RSVP Status Component */
+.rsvp-status-container {
+  padding: 20px;
+  max-width: 400px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.rsvp-status-container h2 {
+  margin-bottom: 20px;
+}
+
+.rsvp-status-container p {
+  font-size: 16px;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  background-color: var(--background-color);
+  background-image: var(--background-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: background-color 0.3s, background-image 0.3s, font-family 0.3s, font-size 0.3s;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  color: var(--primary-color);
   text-align: center;
-}
-
-.register p {
-  margin-bottom: 5px;
-}
-
-.register a {
-  font-weight: bold;
-  color: blue;
 }
