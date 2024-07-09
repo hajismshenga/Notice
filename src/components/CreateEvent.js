@@ -1,57 +1,49 @@
+import axios from '../axiosConfig';
 import React, { useState } from 'react';
-import axios from 'axios';
 import './CreateEvent.css'; // Import the CSS file
 
 const CreateEvent = () => {
     const [eventData, setEventData] = useState({
-        eventName: '',
+        name: '',
+        location: '',
+        details: '',
         description: '',
         date: '',
-        time: '',
-        location: '',
-        inviteeEmails: []
+        time: ''
     });
 
     const handleChange = (e) => {
         setEventData({ ...eventData, [e.target.name]: e.target.value });
     };
 
-    const handleAddInvitee = () => {
-        setEventData({
-            ...eventData,
-            inviteeEmails: [...eventData.inviteeEmails, '']
-        });
-    };
-
-    const handleInviteeChange = (index, e) => {
-        const newInviteeEmails = eventData.inviteeEmails.map((email, i) => {
-            if (i === index) {
-                return e.target.value;
-            }
-            return email;
-        });
-        setEventData({ ...eventData, inviteeEmails: newInviteeEmails });
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('/api/events', eventData, {
+            const response = await axios.post('/api/events/add', {
+                name: eventData.name,
+                location: eventData.location,
+                details: eventData.details,
+                description: eventData.description,
+                date: eventData.date,
+                time: eventData.time
+            }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log('Event created:', response.data);
             // Redirect to dashboard or clear the form
             setEventData({
-                eventName: '',
+                name: '',
+                location: '',
+                details: '',
                 description: '',
                 date: '',
-                time: '',
-                location: '',
-                inviteeEmails: []
+                time: ''
             });
+            alert('Event created successfully!');
         } catch (error) {
             console.error('Error creating event:', error.response?.data || error.message);
+            alert('Failed to create event. Please try again.');
         }
     };
 
@@ -60,9 +52,24 @@ const CreateEvent = () => {
             <h2>Create Event</h2>
             <input
                 type="text"
-                name="eventName"
+                name="name"
                 placeholder="Event Name"
-                value={eventData.eventName}
+                value={eventData.name}
+                onChange={handleChange}
+                required
+            />
+            <input
+                type="text"
+                name="location"
+                placeholder="Location"
+                value={eventData.location}
+                onChange={handleChange}
+                required
+            />
+            <textarea
+                name="details"
+                placeholder="Event Details"
+                value={eventData.details}
                 onChange={handleChange}
                 required
             />
@@ -88,27 +95,6 @@ const CreateEvent = () => {
                 onChange={handleChange}
                 required
             />
-            <input
-                type="text"
-                name="location"
-                placeholder="Location"
-                value={eventData.location}
-                onChange={handleChange}
-                required
-            />
-            {eventData.inviteeEmails.map((email, index) => (
-                <input
-                    key={index}
-                    type="email"
-                    placeholder="Invitee Email"
-                    value={email}
-                    onChange={(e) => handleInviteeChange(index, e)}
-                    required
-                />
-            ))}
-            <button type="button" className="add-invitee" onClick={handleAddInvitee}>
-                Add Invitee
-            </button>
             <button type="submit">Create Event</button>
         </form>
     );

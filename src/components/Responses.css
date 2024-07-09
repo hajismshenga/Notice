@@ -1,0 +1,20 @@
+.responses-container {
+    padding: 20px;
+}
+
+.response-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.response-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.response-item p {
+    margin: 5px 0;
+}

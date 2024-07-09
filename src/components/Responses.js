@@ -1,37 +1,39 @@
-// src/pages/Responses.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Responses = () => {
-    const [responses, setResponses] = useState([]);
+    const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        const fetchResponses = async () => {
+        const fetchEvents = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('/api/responses', {
+                const response = await axios.get('/api/events', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setResponses(response.data);
+                setEvents(response.data);
             } catch (error) {
-                console.error('Error fetching responses:', error);
+                console.error('Error fetching events:', error);
             }
         };
-        fetchResponses();
+        fetchEvents();
     }, []);
 
     return (
         <div>
-            <h2>Responses</h2>
-            {responses.length === 0 ? (
-                <p>No responses available yet.</p>
+            <h2>Events</h2>
+            {events.length === 0 ? (
+                <p>No events available yet.</p>
             ) : (
                 <ul>
-                    {responses.map((response) => (
-                        <li key={response.id}>
-                            <p>Event: {response.eventName}</p>
-                            <p>User: {response.username}</p>
-                            <p>Status: {response.status}</p>
+                    {events.map((event) => (
+                        <li key={event.id}>
+                            <p>Event Name: {event.eventName}</p>
+                            <p>Description: {event.description}</p>
+                            <p>Date: {event.date}</p>
+                            <p>Time: {event.time}</p>
+                            <p>Location: {event.location}</p>
+                            <p>Details: {event.details}</p>
                         </li>
                     ))}
                 </ul>
