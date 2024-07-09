@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from '../axiosConfig'; 
 import { useParams } from 'react-router-dom';
+import axios from '../axiosConfig';
 
 const EventDetail = () => {
-    const { id } = useParams(); // Get event ID from URL
+    const { id } = useParams();
     const [event, setEvent] = useState(null);
-    const [rsvpStatus, setRsvpStatus] = useState(null);
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -16,32 +15,22 @@ const EventDetail = () => {
                 console.error('Error fetching event details:', error);
             }
         };
+
         fetchEvent();
     }, [id]);
 
-    const handleRSVP = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            await axios.post(`/api/events/${id}/rsvp`, {}, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            setRsvpStatus('You have successfully RSVPed to the event.');
-        } catch (error) {
-            console.error('Error RSVPing to the event:', error);
-            setRsvpStatus('Error RSVPing to the event.');
-        }
-    };
-
-    if (!event) return <p>Loading...</p>;
+    if (!event) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
-            <h2>{event.eventName}</h2>
-            <p>Date: {event.date}</p>
-            <p>Time: {event.time}</p>
-            <p>Location: {event.location}</p>
-            <p>Description: {event.description}</p>
-            {rsvpStatus ? <p>{rsvpStatus}</p> : <button onClick={handleRSVP}>RSVP</button>}
+            <h2>{event.name}</h2>
+            <p><strong>Date:</strong> {event.date}</p>
+            <p><strong>Time:</strong> {event.time}</p>
+            <p><strong>Location:</strong> {event.location}</p>
+            <p><strong>Description:</strong> {event.description}</p>
+            <p><strong>Details:</strong> {event.details}</p>
         </div>
     );
 };

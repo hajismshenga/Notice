@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../axiosConfig';
 
 const Responses = () => {
     const [events, setEvents] = useState([]);
@@ -8,7 +8,7 @@ const Responses = () => {
         const fetchEvents = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('/api/events', {
+                const response = await axios.get('/api/events/all', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setEvents(response.data);
@@ -28,12 +28,13 @@ const Responses = () => {
                 <ul>
                     {events.map((event) => (
                         <li key={event.id}>
-                            <p>Event Name: {event.eventName}</p>
+                            <p>Event Name: {event.name}</p>
                             <p>Description: {event.description}</p>
                             <p>Date: {event.date}</p>
                             <p>Time: {event.time}</p>
                             <p>Location: {event.location}</p>
                             <p>Details: {event.details}</p>
+                            <a href={`/event/${event.id}`}>View Details</a>
                         </li>
                     ))}
                 </ul>

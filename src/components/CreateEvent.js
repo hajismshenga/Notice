@@ -1,6 +1,7 @@
 import axios from '../axiosConfig';
 import React, { useState } from 'react';
 import './CreateEvent.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = () => {
     const [eventData, setEventData] = useState({
@@ -11,6 +12,8 @@ const CreateEvent = () => {
         date: '',
         time: ''
     });
+    const [inviteLink, setInviteLink] = useState('');
+    const navigate = useNavigate(); // To navigate to the event detail page
 
     const handleChange = (e) => {
         setEventData({ ...eventData, [e.target.name]: e.target.value });
@@ -31,16 +34,10 @@ const CreateEvent = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             console.log('Event created:', response.data);
-            // Redirect to dashboard or clear the form
-            setEventData({
-                name: '',
-                location: '',
-                details: '',
-                description: '',
-                date: '',
-                time: ''
-            });
-            alert('Event created successfully!');
+            setInviteLink(response.data); // Set the invite link returned by the backend
+            // Redirect to the event detail page
+            const eventId = response.data.split("eventId=")[1].split("&")[0];
+            navigate(`/event/${eventId}`); 
         } catch (error) {
             console.error('Error creating event:', error.response?.data || error.message);
             alert('Failed to create event. Please try again.');
@@ -96,6 +93,12 @@ const CreateEvent = () => {
                 required
             />
             <button type="submit">Create Event</button>
+            {inviteLink && (
+                <div className="invite-link">
+                    <p>Share this link with invitees:</p>
+                    <input type="text" value={inviteLink} readOnly />
+                </div>
+            )}
         </form>
     );
 };
