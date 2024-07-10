@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from '../axiosConfig';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
+    const [events, setEvents] = useState([]);
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            const response = await axios.get('/api/events/all');
+            setEvents(response.data);
+        };
+        fetchEvents();
+    }, []);
+
     return (
-        <div className="dashboard">
-            <h1>Event Management System</h1>
-            <p>Welcome to the Event Management System. Use the navigation links to manage events.</p>
+        <div>
+            <h2>Event Dashboard</h2>
+            <ul>
+                {events.map(event => (
+                    <li key={event.id}>
+                        <Link to={`/event/${event.id}`}>{event.name}</Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

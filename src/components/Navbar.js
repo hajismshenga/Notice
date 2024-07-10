@@ -9,7 +9,6 @@ const Navbar = () => {
             <ul className="navbar-links">
                 <li><Link to="/dashboard" className="navbar-link">Dashboard</Link></li>
                 <li><Link to="/create-event" className="navbar-link">Create Event</Link></li>
-                <li><Link to="/search-events" className="navbar-link">Search Events</Link></li>
                 <li><Link to="/responses" className="navbar-link">Responses</Link></li>
                 <li><Link to="/settings" className="navbar-link">Settings</Link></li>
             </ul>
